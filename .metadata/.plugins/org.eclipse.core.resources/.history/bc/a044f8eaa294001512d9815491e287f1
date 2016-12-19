@@ -1,0 +1,267 @@
+package com.tnyoo.facebookanalytics;
+
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
+import com.unity3d.player.UnityPlayerActivity;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class FBAnalyticsActivity extends UnityPlayerActivity {// UnityPlayerActivity
+	private static final String TAG = "FacebookSDK";
+	AppEventsLogger logger;
+	public String gameObj;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		init();
+//		setContentView(R.layout.activity_main);
+	}
+
+	/**初始化操作，必须最先调用，在onCreate中调用（不可等Unity调用）*/
+	private void init() {
+		Activity a = new Activity();
+	    FacebookSdk.sdkInitialize(a);//必须最先进行初始化
+	    // 允许调试
+		FacebookSdk.setIsDebugEnabled(true);
+		FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+	}
+
+	//这里由Unity脚本调用
+	public void initFaceBookSDK(String gameObjName, String applicationId){// "713533585414316"
+		logger = AppEventsLogger.newLogger(this, applicationId);// To create a AppEventsLogger:
+		gameObj = gameObjName;
+		log("initFaceBookSDK applicationId", gameObj + " - key:" + applicationId);
+	}
+	
+	/** -----facebook预定义事件，其中App Install, App Launch 由facebookSDK自动统计-------- */
+	/**
+	 * Completed Registration
+	 * 
+	 * @param registrationMethod
+	 *            注册方式(Facebook, Email, QQ, etc.)
+	 */
+	public void completedRegistration(String registrationMethod) {
+		Bundle parameters = new Bundle();
+		parameters.putString(
+				AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD,
+				registrationMethod);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION,
+				parameters);
+		log("completedRegistration registrationMethod", registrationMethod);
+	}
+
+	/**
+	 * Spent Credit（游戏内虚拟币消费）
+	 * 
+	 * @param contentType
+	 *            消费商品（如：道具，英雄）
+	 * @param contentId
+	 *            消费商品ID
+	 * @param valueOfCreditsSpent
+	 *            消费金额
+	 */
+	public void spentCredit(String contentType, String contentId,
+			double valueOfCreditsSpent) {
+		Bundle parameters = new Bundle();
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,
+				contentType);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID,
+				contentId);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_SPENT_CREDITS,
+				valueOfCreditsSpent, parameters);
+	}
+
+	/**
+	 * Level Achieved
+	 * 
+	 * @param levelNum
+	 *            级别
+	 */
+	public void levelAchieved(String levelNum) {
+		Bundle parameters = new Bundle();
+		parameters.putString(AppEventsConstants.EVENT_PARAM_LEVEL, levelNum);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL,
+				parameters);
+	}
+
+	/**
+	 * Achievement Unlocked（解锁成就）
+	 * 
+	 * @param achievementType
+	 *            成就类型
+	 * @param achievementId
+	 *            成就ID
+	 */
+	public void achievementUnlocked(String achievementType, String achievementId) {
+		Bundle parameters = new Bundle();
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,
+				achievementType);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID,
+				achievementId);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_UNLOCKED_ACHIEVEMENT,
+				parameters);
+	}
+
+	/**
+	 * Completed Tutorial（完成教程）
+	 * 
+	 * @param success
+	 *            是否完成(1 for yes, 0 for no)
+	 * @param description
+	 *            教程描述
+	 * @param contentType
+	 *            教程种类
+	 */
+	public void completedTutorial(int success, String description,
+			String contentType) {
+		Bundle parameters = new Bundle();
+		parameters.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_DESCRIPTION,
+				description);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,
+				contentType);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_TUTORIAL,
+				parameters);
+	}
+
+	/**
+	 * Initiate Checkout（开始结帐）
+	 * 
+	 * @param contentType
+	 *            购买商品
+	 * @param contentId
+	 *            商品ID
+	 * @param numItems
+	 *            购买数量
+	 * @param paymentInfoAvailable
+	 *            支付信息是否可用(1 for yes, 0 for no)
+	 * @param currency
+	 *            货币种类
+	 * @param priceOfItems
+	 *            商品价格
+	 */
+	public void initiateCheckout(String contentType, String contentId,
+			String numItems, int paymentInfoAvailable, String currency,
+			double priceOfItems) {
+
+		Bundle parameters = new Bundle();
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,
+				contentType);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID,
+				contentId);
+		parameters
+				.putString(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, numItems);
+		parameters.putInt(
+				AppEventsConstants.EVENT_PARAM_PAYMENT_INFO_AVAILABLE,
+				paymentInfoAvailable);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, currency);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT,
+				priceOfItems, parameters);
+	}
+
+	/**
+	 * Purchase（购买，支付）
+	 * 
+	 * @param contentType
+	 *            购买商品
+	 * @param contentId
+	 *            商品ID
+	 * @param numItems
+	 *            购买数量
+	 * @param currency
+	 *            货币种类
+	 * @param purchaseAmount
+	 *            付款金额
+	 */
+	public void Purchase(String numItems, String contentType, String contentId,
+			String currency, double purchaseAmount) {
+		Bundle parameters = new Bundle();
+		parameters
+				.putString(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, numItems);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,
+				contentType);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, currency);
+		parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID,
+				contentId);
+
+		logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED,
+				purchaseAmount, parameters);
+	}
+	/** -------------------facebook预定义事件结束------------------------------------ */
+
+	/** ---------------下面为自定义事件，需要在facebook AnalyticsEvent预定义才可用------------ */
+	// Purchase Cancelled
+	public void purchaseCancelled() {
+	}
+	// Join Group
+	public void joinGroup() {
+	}
+	// Create Group
+	public void createGrou() {
+	}
+
+	// ************************为每个Activity添加下面生命周期方法复写*******************************
+	@Override
+	protected void onResume() {
+		super.onResume();
+		log("activateApp", "activateApp");
+		// activateApp 的第一个实例将被 Facebook 视为一次安装
+		// 当该Activity可见时，激活应用程序，activateApp会对facebookSDK进行初始化操作
+		AppEventsLogger.activateApp(this);//, logger.getApplicationId()
+	}
+
+	protected void onPause() {
+		super.onPause();
+		AppEventsLogger.deactivateApp(this);// 当该Activity不可见时，解除激活应用程序
+	}
+
+	private void log(String method, String str) {
+		Log.i(TAG, method + ": " + str);
+	}
+
+	// ----------------测试用UI界面的所有Button onClick事件-----------------
+/*
+	public void initFBSDK(View v){
+		initFaceBookSDK("FaceBookObj", "713533585414316");
+	}
+	
+	public void completedRegistration(View v) {
+		completedRegistration("手机号");
+	}
+
+	public void spentCredit(View v) {
+		spentCredit("英雄 黑猫警长", "078", 6300);
+	}
+
+	public void levelAchieved(View v) {
+		levelAchieved("22");
+	}
+
+	public void achievementUnlocked(View v) {
+		achievementUnlocked("铂金段位", "05");
+	}
+
+	public void completedTutorial(View v) {
+		completedTutorial(1, "火焰山烈焰泉", "新手教程");
+	}
+
+	public void initiateCheckout(View v) {
+		initiateCheckout("水娃冰川之心皮肤", "swicep110", "1", 1, "CNY", 79.9);
+	}
+
+	public void Purchase(View v) {
+		Purchase("1", "火娃烈焰之心皮肤", "hwfirep112", "CNY", 99.5);
+	}
+//*/
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="vivo_text_size_small">12sp</dimen>
+    <!-- 手机支付页面，按钮距离页面距离 -->
+    <dimen name="card_pay_btn_bottom">40dip</dimen>
+    <!-- 大字体适配 -->
+    <dimen name="vivo_login_45px">18px</dimen>
+    <dimen name="vivo_login_48px">20px</dimen>
+    <dimen name="vivo_login_39px">16px</dimen>
+    <dimen name="vivo_login_60px">22px</dimen>
+    <dimen name="vivo_login_42px">18px</dimen>
+    <dimen name="vivo_login_54px">20px</dimen>
+    <dimen name="vivo_login_36px">13px</dimen>
+    <dimen name="vivo_login_33px">13px</dimen>
+
+</resources>

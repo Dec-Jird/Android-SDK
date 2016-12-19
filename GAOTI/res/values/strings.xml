@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">loginSDK</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- xml style -->
+    <string name="changeAccMainScreen">切帳帳號</string>
+    <string name="directToGameMainScreen">直接進入遊戲</string>
+    <string name="fontSize">32sp</string>
+    <string name="accHint">帳號 (4-16位)</string>
+    <string name="passwordHint">密碼</string>
+    <string name="oldPassword">帳號密碼</string>
+    <string name="newPassword">新帳號密碼</string>
+    <string name="newPasswordRepeat">新帳號密碼 (重復)</string>
+    <string name="changePassword">更改密碼</string>
+
+    <!-- LoginActivity Message -->
+    <string name="upgradeMessage">升級 (遊客模式需升級至普通帳號後才能充值)</string>
+	<!-- LoginActivity Message -->
+    
+    <!-- color -->
+    <color name="purple">#920AE1</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#E4E4E4</color>
+   	<color name="red">#FF0000</color>  
+    <!-- color -->
+    <!-- RegisterActivity Tab -->
+    <string name="userName">用戶名</string>
+    <string name="mobileVerification">手機</string>
+
+    <!-- RegisterActivity -->
+    <!-- RegisterActivity registerwithNormal -->
+    <string name="reminder">為了你的帳號安全 , 請牢記用戶名及密碼</string>
+    <string name="agreement">註冊表示你同意條款  (請點擊查看條款)</string>
+    <string name="inGame">進入遊戲</string>
+    <string name="inGameVistor">不透過註冊 直接進入遊戲</string>
+    <!-- RegisterActivity -->
+    
+    <string name="newsTopic">系統公告</string>
+    <string name="agreementTopic">使用者條款</string>
+    <string name="chargeTopic">充值</string>
+    <string name="csUrl">https://gocs.gameone.com/index.php</string>
+
+    <!-- API URL in AsyncNetwokring getApiUrl -->
+    
+     <!-- ValidParam -->
+    <string name="validParam">{\"gameacc\":\"^[A-Za-z0-9]{4,16}\" ,\"pwd\":\"^[A-Za-z0-9_]{4,16}\",\"oldPassword\":\"^[A-Za-z0-9_]{4,16}\",\"newPassword\":\"^[A-Za-z0-9_]{4,16}\"}</string>
+
+    <!-- API URL in AsyncNetwokring getApiUrl -->
+	<!-- 
+	<string name="tokenError">Token 不存在於你的手機上或與線上認證版本不同, 請重新登入</string> -->
+
+    <!-- general GameSDK Error Message -->
+    <string name="saveDataLocal">saveDataLocal</string>
+    <string name="gameaccError">遊戲帳號格式錯誤 請輸入4-16位英數字 不含符號的帳號</string>
+    <string name="oldPasswordError">舊帳號密碼格式錯誤  請輸入4-16位英數字 不含符號的帳號</string>
+    <string name="newPasswordError">新帳號密碼格式錯誤  請輸入4-16位英數字 不含符號的帳號</string>
+    <string name="pwdDoubleError">重復輸入的新帳號密碼不正確</string>
+    <string name="pwdAllEqualError">你的舊帳號密碼與新帳號密碼一樣 請修改</string>
+    <string name="pwdError">密碼格式錯誤 請輸入4-16位英數字 不含符號的密碼</string>
+    <string name="tokenError">你的手機之前沒有註冊過平台帳號(1)</string>
+    <string name="unknownTokenError">Token發生未知錯誤</string>
+    <string name="isUpgradeError">你的帳號已經升級過了 不能再使用遊客模式升級</string>
+    <string name="localTokenDisappearError">你的手機之前沒有註冊過平台帳號(2)</string>
+    <string name="fastRefreshError">請勿刷新太快, 如果刷新次數多於5次 將會暫時封鎖功能</string>
+    <string name="deviceIdError">你的設備不能使用遊客模式 </string>
+    <!-- general GameSDK Error Message -->
+
+
+    <!-- GameLogin Page -->
+    <string name="goInTheGame">進入遊戲</string>
+	<string name="hotTopicTitle">系統公告</string>
+	<string name="otherLogin">其他登入</string>
+	<string name="requestMins">5</string>
+	
+    <!-- GameLogin Page -->
+    
+    <!-- Inside the Game -->
+    <string name="charge">充值</string>
+    <string name="customService">客服</string>
+    <string name="logout">登出</string>
+    <!-- Inside the Game -->
+
+
+    <!-- menu item -->
+    <string name="preferences">設定</string>
+
+    <string-array name="menuItem">
+        <item>{"name":"更改密碼","image":"change_password"}</item>
+        <item>{"name":"GOcard充值","image":"change_password"}</item>
+    </string-array>
+	<!-- menu item -->
+	        <!--  //
+        <item>{"name":"Facebook綁定帳號","image":"facebook_icon"}</item>
+        <item>{"name":"Google綁定帳號","image":"google"}</item>-->
+	
+	
+	<string name="packageNameWithGameActivity">com.game.unitywithgamesdk.GameActivity</string>
+	<!--<string name="packageNameWithGameActivity">com.game.unitywithgamesdk</string>-->
+	
+	
+	<!-- Async Dialog -->
+	<string name="transactionInProgress">交易進行中 , 請勿取消</string>
+	<string name="inProgress">進度載入中</string>
+	<!-- Async Dialog -->
+	
+	<!-- Google Play Billing Payment  -->
+	<string-array name="googlePlayProduct">
+        <item>{"id":"test_unmanaged_product"}</item>
+        <item>{"id":"test_unmanaged_product2"}</item>
+        <item>{"id":"test_unmanaged_product3"}</item>
+        <item>{"id":"test_unmanaged_product4"}</item>
+    </string-array>
+
+
+	<!-- FB Login -->
+	<string name="app_id">1334758066536656</string>
+	<string name="title_facebook_login">使用Facebook Apps 登入</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+
+
+    <!--FB Login-->
+    <!-- For Goone Fragment -->
+
+    <!-- In Game Home Button -->
+
+    <string name="gooneMainPage">Goone主頁</string>
+    <string name="gameArea">遊戲專區</string>
+    <string name="gamerDiscuss">巴哈討論</string>
+    <string name="hiddenHomeButton">隱藏按鈕</string>
+    <!-- In Game Home Button -->
+
+    <!-- Heading Button -->
+
+    <string name="btnVistor">遊客模式</string>
+    <string name="btnVistorUpgrade">遊客升級</string>
+    <string name="btnNormalLogin">會員登入</string>
+    <string name="btnNormalRegister">會員註冊</string>
+    <!-- Heading Button -->
+
+
+    <string name="forgetPassword"><u>忘記密碼</u></string>
+    <string name="normalLoginTextView">登入</string>
+    <string name="registerTextView">註冊</string>
+    <string name="upgradeTextView">升級</string>
+    <string name="upgradeAccTextView">升級帳號</string>
+    <string name="accountTextView">帳號</string>
+    <string name="passwordTextView">密碼</string>
+    <string name="passwordRepeatTextView">確認密碼</string>
+    <string name="thirdPartyReminderTextView">免註冊快速登入</string>
+    <string name="facebookLoginTextView">Facebook 登入</string>
+    <string name="googleLoginTextView">Google+ 登入</string>
+    <string name="gamerLoginTextView">巴哈姆特 登入</string>
+
+
+    <!-- Register Fragmnet Goone-->
+    <string name="registerReminder">*帳號/密碼僅限使用英文組合數字,4-16位帳號密碼</string>
+
+
+
+
+    <!-- Register Fragmnet Goone-->
+
+    <!-- For Goone Fragment -->
+
+
+</resources>

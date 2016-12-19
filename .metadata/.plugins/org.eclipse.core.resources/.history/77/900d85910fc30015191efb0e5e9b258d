@@ -1,0 +1,223 @@
+package com.tnyoo.YYJIA;
+
+import com.tnyoo.YYJIA.event.SDKEvent;
+import com.unity3d.player.UnityPlayer;
+import com.unity3d.player.UnityPlayerActivity;
+import com.yyjia.sdk.center.GMcenter;
+import com.yyjia.sdk.data.Information;
+import com.yyjia.sdk.listener.LoginListener;
+import com.yyjia.sdk.listener.PayListener;
+
+import de.greenrobot.event.EventBus;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.Menu;
+import android.widget.Toast;
+
+// UnityPlayerActivity
+public class YYJIAActivity extends UnityPlayerActivity {
+
+	private static final String TAG = "YYJIA";
+	private GMcenter mCenter = null;
+	private String gameObj;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.i(TAG, "onCreate");
+		// setContentView(R.layout.activity_yyjia);
+		
+		if(EventBus.getDefault().isRegistered(this))
+			EventBus.getDefault().unregister(this);
+		
+		EventBus.getDefault().register(this, "onSDKEvent");
+		EventBus.getDefault().register(this, "onPayEvent");
+//		EventBus.getDefault().register(this, "onSDKInitEvent");
+//		EventBus.getDefault().register(this, "onLoginEvent");
+//		EventBus.getDefault().register(this, "onPayEvent");
+//		EventBus.getDefault().register(this, "onLogoutEvent");
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// getMenuInflater().inflate(R.menu.yyjia, menu);
+		return true;
+	}
+
+	// 初始化
+	public void initYYJIASDK(String gameObjName) {
+		gameObj = gameObjName;
+		Log.i(TAG, "initYYJIASDK 1");
+		Handler initHandler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				Log.i(TAG, "initLoginHandler");
+				// 初始化SDK，初始化统计服务（游戏初始化时调用）
+				mCenter = GMcenter.getInstance1(YYJIAActivity.this);
+			}
+
+		};
+		initHandler.sendEmptyMessage(0);
+	}
+
+	public void onSDKEventMainThread(SDKEvent event){
+		String type = event.getType();
+		if(type.equals("initSDK")){
+			
+		}
+	}
+	
+	// 登陆
+	public void login() {
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// 登录登出监听器
+//				mCenter.setLoginListener(, 1000);
+			}});
+		// 判断用户是否处于登录状态，未登录则登陆
+		mCenter.checkLogin();
+	}
+	}
+
+	private LoginListener loginListener = new LoginListener() {
+		// 登录监听方法
+		@Override
+		public void loginSuccessed(String code) {
+
+			if (code == Information.LOGIN_SUSECCEDS) { // 登陆成功
+				String sid = mCenter.getSid();// 取得sessionid
+				UnityPlayer.UnitySendMessage(gameObj,
+						"msgReceiver",
+						"{\"code\":\"1\",\"ret\":\"true\",\"sessionid\":\""
+								+ sid + "\"}");
+
+				Toast.makeText(YYJIAActivity.this, "登录成功",
+						Toast.LENGTH_LONG).show();
+				Log.d(TAG, "sessionid: " + sid);
+			} else {// 登陆失败
+				UnityPlayer
+						.UnitySendMessage(gameObj, "msgReceiver",
+								"{\"code\":\"1\",\"ret\":\"false\",\"sessionid\":\"\"}");
+				Toast.makeText(YYJIAActivity.this, "登录失败",
+						Toast.LENGTH_LONG).show();
+			}
+		}
+
+		// 登出监听方法
+		public void logoutSuccessed(String code) {
+			// TODO Auto-generated method stub
+			if (code == Information.LOGOUT_SUSECCED) {
+				String sid = mCenter.getSid();// 取得sessionid
+				UnityPlayer.UnitySendMessage(gameObj,
+						"msgReceiver",
+						"{\"code\":\"3\",\"ret\":\"true\",\"sessionid\":\""
+								+ sid + "\"}");
+
+				Toast.makeText(YYJIAActivity.this, "退出成功22",
+						Toast.LENGTH_LONG).show();
+				Log.d(TAG, "sessionid: " + sid);
+			} else {
+				UnityPlayer
+						.UnitySendMessage(gameObj, "msgReceiver",
+								"{\"code\":\"3\",\"ret\":\"false\",\"sessionid\":\"\"}");
+				Toast.makeText(YYJIAActivity.this, "退出失败",
+						Toast.LENGTH_LONG).show();
+			}
+		}
+
+	};
+
+			
+	/**
+	 * 支付
+	 * 
+	 * @param price
+	 *            商品价格
+	 * @param productName
+	 *            商品名称
+	 * @param serverId
+	 *            服务器编号
+	 * @param roleId
+	 *            角色编号
+	 * @param orderId
+	 *            CP订单号
+	 * @param callbackInfo
+	 *            扩展信息 当充值成功会回传给游戏服务器
+	 */
+	public void pay(float price, String productName, String serverId,
+			String roleId, String orderId, String callbackInfo) {
+
+		mCenter.pay(YYJIAActivity.this, price, productName, serverId, roleId,
+				orderId, callbackInfo, payListener);
+	}
+
+	private PayListener payListener = new PayListener() {
+
+		@Override
+		public void paySuccessed(String code, String cporderid) {
+			// TODO 自动生成的方法存根
+			if (code == Information.PAY_SUSECCED) {// 支付成功
+				UnityPlayer.UnitySendMessage(gameObj, "msgReceiver",
+						"{\"code\":\"2\",\"ret\":\"true\",\"cporderid\":\""
+								+ cporderid + "\"}");
+
+				Toast.makeText(YYJIAActivity.this, cporderid + "支付成功",
+						Toast.LENGTH_LONG).show();
+			} else {// 支付失败
+				UnityPlayer
+						.UnitySendMessage(gameObj, "msgReceiver",
+								"{\"code\":\"2\",\"ret\":\"false\",\"cporderid\":\"\"}");
+				Toast.makeText(YYJIAActivity.this, "充值失败", Toast.LENGTH_LONG)
+						.show();
+			}
+		}
+
+	};
+	
+	// 切换账号或者注销
+	public void logout() {
+		// 切换账号或者注销
+		mCenter.logout();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO 自动生成的方法存根
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO 自动生成的方法存根
+		if (mCenter != null)
+			mCenter.showtoolbar();
+		super.onResume();
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO 自动生成的方法存根
+		if (mCenter != null)
+			mCenter.disstoolbar();
+		super.onStop();
+	}
+
+	/*
+	 * // 初始化-登陆 public void Init(View view) { initYYJIASDK("gameObj"); }
+	 * 
+	 * public void Login(View view) { login(); }
+	 * 
+	 * public void Pay(View view) { DateFormat format = new
+	 * java.text.SimpleDateFormat( "yyyy-MM-dd-hh-mm-ss-SSS", Locale.US); String
+	 * requestId = format.format(new Date()); pay(0.05f, "火娃烈焰皮肤", "3",
+	 * "110110", requestId, "支付callbackInfo"); }
+	 * 
+	 * // 登出/切换账号 public void Logout(View view) { logout(); } //
+	 */
+}

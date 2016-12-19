@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 5 elements to &apos;libs&apos;&#x0D;&#x0A;- Original project: &apos;Facebook_hand_R_AS_res&apos;&#x0D;&#x0A;- Destination element: &apos;libs&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     cardview-v7-23.4.0.jar&#x0D;&#x0A;     customtabs-23.4.0.jar&#x0D;&#x0A;     bolts-android-1.4.0.jar&#x0D;&#x0A;     appcompat-v7-23.4.0.jar&#x0D;&#x0A;     Facebook_4.16.0_SDK.jar" description="Copy files" element1="libs/cardview-v7-23.4.0.jar" element2="libs/customtabs-23.4.0.jar" element3="libs/bolts-android-1.4.0.jar" element4="libs/appcompat-v7-23.4.0.jar" element5="libs/Facebook_4.16.0_SDK.jar" files="5" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1480989261582" target="/Pasteboard/libs" units="0" version="1.0"/>
+</session>

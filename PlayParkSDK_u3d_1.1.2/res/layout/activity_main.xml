@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <Button
+            android:id="@+id/Init"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:onClick="Init"
+            android:text="初始化"
+            android:textColor="#ff2f2cff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+       <Button
+            android:id="@+id/Login"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:onClick="Login"
+            android:text="登陆SDK"
+            android:textColor="#ff2f2cff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+        <Button
+            android:id="@+id/BindAccount"
+            android:layout_width="208dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="BindAccount"
+            android:text="绑定帐号"
+            android:textColor="#ff2f2cff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+</LinearLayout>

@@ -1,0 +1,134 @@
+package com.tnyoo.simplegoogleana;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.tnyoo.simplegoogleana.AnalyticsApplication.TrackerName;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	}
+
+	public void sendEvent1(View v) {
+		// 获取跟踪
+		Tracker tracker = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+
+		// All subsequent hits will be send with screen name = "main screen"
+		tracker.setScreenName("main screen");
+		// tracker.setSampleRate(50.0d);//为跟踪器启用客户端抽样，设置客户端抽样率为50%
+
+		tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+		tracker.send(new HitBuilders.EventBuilder().setCategory("Simple")
+				.setAction("click").setLabel("submit").build());
+		// Clear the screen name field when we're done.
+		tracker.setScreenName(null);
+	}
+
+	public void sendEvent2(View v) {
+		// 获取跟踪
+		Tracker tracker = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+
+		tracker.setScreenName("help popup dialog");
+		// Builder parameters can overwrite the screen name set on the tracker.
+		tracker.send(new HitBuilders.EventBuilder()
+				.setCategory("LongLongStory").setAction("click")
+				.setLabel("help popup").build());
+		tracker.setScreenName(null);
+	}
+	
+	//电子商务
+	
+	//增强型电子商务
+	
+	
+	/**
+	 * 发送异常
+	 * @param exceptionMethod 发生异常的方法
+	 * @param exceptionLocation 发生异常位置
+	 * @param exceptionFatal 异常是否严重，true 代表严重。
+	 */
+	private void sendException(String exceptionMethod, String exceptionLocation, boolean exceptionFatal){
+		Tracker tracker = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		// Build and send exception.
+		tracker.send(new HitBuilders.ExceptionBuilder()
+		    .setDescription(exceptionMethod + ": " + exceptionLocation)//异常描述
+		    .setFatal(exceptionFatal)
+		    .build());
+	}
+	
+	/*
+	 * HitBuilders.ScreenViewBuilder
+	 * 
+	 */
+	/**
+	 * 构建并发送普通事件
+	 * @param category 事件类别
+	 * @param action 事件操作
+	 * @param label 事件标签
+	 * @param value 事件值
+	 */
+	private void setupEvent(String screenName, String category, String action, String label,
+			Long value) {
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+		
+		// Build and send an Event.
+		t.send(new HitBuilders.EventBuilder()
+		.setCategory(category)
+		.setAction(action)
+		.setLabel(label)
+		.setValue(value)
+		.build());
+	}
+	
+	//屏幕：衡量屏幕浏览量以及用户如何在屏幕之间跳转
+	
+	//会话：
+	
+	//社交互动次数：
+	
+	//用户id
+	
+	//用户计时
+	
+	//自定义维度和指标，如：自定义维度为Vip，则指标有1(vip1),2(vip2)....，自定义维度为
+	//设置自定义维度
+	private void customDimension(String screenName, int index, String dimension){
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+
+		// Send the custom dimension value with a screen view.
+		// Note that the value only needs to be sent once.
+		t.send(new HitBuilders.ScreenViewBuilder()
+		.setCustomDimension(index, dimension)//(1, "premiumUser")
+		.build());
+		t.setScreenName(null);
+	}
+	
+	//设置自定义指标
+	private void customMetric(String screenName, int index, float metric){
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+		
+		// Send the custom dimension value with a screen view.
+		// Note that the value only needs to be sent once.
+		t.send(new HitBuilders.ScreenViewBuilder().setCustomMetric(index, metric)//(1, 5)
+				.build());
+		t.setScreenName(null);
+	}
+}

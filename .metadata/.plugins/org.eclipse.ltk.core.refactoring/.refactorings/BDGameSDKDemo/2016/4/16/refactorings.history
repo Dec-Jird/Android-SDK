@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;BaseActivity.java&apos; to &apos;BaiDuGame_u3d/src/com.tnyoo.baidugame_u3d&apos;&#x0D;&#x0A;- Original project: &apos;BDGameSDKDemo&apos;&#x0D;&#x0A;- Destination element: &apos;BaiDuGame_u3d/src/com.tnyoo.baidugame_u3d&apos;&#x0D;&#x0A;- Original element: &apos;com.baidu.bdgamesdk.demo.activity.BaseActivity.java&apos;" description="Copy compilation unit" destination="=BaiDuGame_u3d/src&lt;com.tnyoo.baidugame_u3d" element1="/src&lt;com.baidu.bdgamesdk.demo.activity{BaseActivity.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1460342476028" units="1" version="1.0"/>
+</session>

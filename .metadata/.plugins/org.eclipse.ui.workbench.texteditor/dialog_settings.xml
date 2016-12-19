@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="appInviteDialog" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="appInviteDialog"/>
+			<item value="CALLBACK_SHARE"/>
+			<item value="appInvite"/>
+			<item value="consumeAsync"/>
+			<item value="Log.d"/>
+			<item value="parentPanel"/>
+			<item value="com_facebook_fragment_container"/>
+			<item value="&quot;name&quot;"/>
+		</list>
+		<list key="replacehistory">
+			<item value="getIdByName(&quot;style&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;string&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;layout&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;integer&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;id&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;drawable&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;dimen&quot;, &quot;name&quot;); //"/>
+			<item value="getIdByName(&quot;color&quot;, &quot;name&quot;); //"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="468" key="DIALOG_WIDTH"/>
+		<item value="1|微软雅黑|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|微软雅黑" key="DIALOG_FONT_NAME"/>
+		<item value="295" key="DIALOG_HEIGHT"/>
+		<item value="741" key="DIALOG_X_ORIGIN"/>
+		<item value="523" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

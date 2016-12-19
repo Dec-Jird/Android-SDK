@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<server port="8080">
+  <module context="SDKServer" name="SDKServer" path="D:/TynooProject/AndroidProject/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/SDKServer" type="static"/>
+</server>

@@ -1,0 +1,393 @@
+package com.tnyoo.android.dotaxiyou.vivo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import com.bbk.payment.PaymentActionDetailsInit;
+import com.bbk.payment.PaymentActivity;
+import com.unity3d.player.UnityPlayer;
+import com.unity3d.player.UnityPlayerActivity;
+import com.vivo.account.base.accounts.OnVivoAccountChangedListener;
+import com.vivo.account.base.accounts.VivoAccountManager;
+import com.vivo.account.base.activity.LoginActivity;
+import de.greenrobot.event.EventBus;
+
+public class VivoU3DActivity extends UnityPlayerActivity {
+
+	private static final String TAG = "PAY";
+	private boolean showLog = true;
+	public String ViVoGameObj;
+	public final static String KEY_SWITCH_ACCOUNT = "switchAccount";
+	public final static String KEY_SHOW_TEMPLOGIN = "showTempLogin";
+	private Context mContext;
+	private VivoAccountManager mVivoAccountManager;
+	private String LoginResultResp = "LoginResultResp";
+	private String PayResultResp = "PayResultResp";
+	private String appId = null;// appid为vivo开发者平台中生成的AppID
+
+	@Override
+	protected void onCreate(Bundle arg0) {
+		// TODO Auto-generated method stub
+		super.onCreate(arg0);
+		mContext = UnityPlayer.currentActivity;
+		// setContentView(R.layout.activity_vivo_u3d);
+		
+		// 进入游戏主界面显示悬浮窗
+		doSDKShowAssistView();
+		mVivoAccountManager = VivoAccountManager.getInstance(mContext);
+		// 注册切换帐号监听
+		mVivoAccountManager.registeListener(mOnVivoAccountChangedListener);
+	
+		if (EventBus.getDefault().isRegistered(this)) {
+			EventBus.getDefault().unregister(this);
+		}
+		EventBus.getDefault().register(this, "onInitEvent");
+	}
+
+	@Override
+	public void onBackPressed() {
+		releaseResource();
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		appId = null;
+		mVivoAccountManager.unRegistListener(mOnVivoAccountChangedListener);
+	}
+
+	// 资源释放可以在SDKManager中的SDKRelease中调用进行资源释放
+	public void releaseResource() {
+		// TODO 资源释放，请在onBackPressed()方法里调用，而不是onDestroy方法里调用
+		VivoAccountManager.vivoAccountonDestroy(mContext);
+		log("onBackPressed，释放资源");
+	}
+
+	public void log(String str) {
+		if (showLog)
+			Log.i(TAG, str);
+	}
+
+	// -------------------sdk 接口 ------------------
+	public void onInitEventMainThread(InitEvent event) {
+		String str = event.getType();
+		log("onInitEventMainThread type: " + str);
+		if (str == "init") {
+			// doSDKInit();
+			;
+		} else if (str == "login") {
+			doSDKLogin();
+		} else if (str == "createRole") {
+			// 创建角色和升级调用同一个接口.
+			doSDKCreateRole(event);
+		} else if (str == "getPaymentActionInfo") {
+			// 获取活动.
+			getPaymentAction();
+		} else if (str == "pay") {
+			doSDKPay(event);
+		} else if (str == "switchAccount") {
+			doSDKSwitchAccount();
+		} else if (str == "doSDKShowAssistView"){
+			VivoAccountManager.vivoAccountStartAssistView(mContext);
+		} else if (str == "doSDKHideAssistView"){
+			VivoAccountManager.vivoAccountStopAssistView(mContext);
+		}
+	}
+
+	public void init(String appId, String gameObj, boolean logOnOff) {
+		this.appId = appId;
+		this.ViVoGameObj = gameObj;
+		this.showLog = logOnOff;
+		InitEvent event = new InitEvent();
+		event.setType("init");
+		EventBus.getDefault().post(event);
+	}
+
+	public void doSDKInit() {
+		// -------------没有初始化函数-------------
+	}
+
+	public void login() {
+		InitEvent event = new InitEvent();
+		event.setType("login");
+		EventBus.getDefault().post(event);
+	}
+
+	/** 启动vivo帐户登录界面 **/
+	public void doSDKLogin() {
+		Intent loginIntent = new Intent(VivoU3DActivity.this,
+				LoginActivity.class);
+		// loginIntent.putExtra(KEY_SWITCH_ACCOUNT, false);
+		mContext.startActivity(loginIntent);
+	}
+
+	/**
+	 * 切换帐号
+	 */
+	public void switchAccount() {
+		InitEvent event = new InitEvent();
+		event.setType("switchAccount");
+		EventBus.getDefault().post(event);
+	}
+
+	public void doSDKSwitchAccount() {
+		Intent loginIntent = new Intent(VivoU3DActivity.this,
+				LoginActivity.class);
+		loginIntent.putExtra(KEY_SWITCH_ACCOUNT, true);
+		mContext.startActivity(loginIntent);
+	}
+
+	/**
+	 * 创角和升级调用同一个接口
+	 * 
+	 * @param roleid
+	 *            游戏用于标识角色的id
+	 * @param rolelevel
+	 *            角色等级
+	 * @param roleName
+	 *            角色名称
+	 * @param serviceArea
+	 *            区服ID
+	 * @param serviceAreaName
+	 *            区服名称
+	 */
+	public void createRole(String roleid, int rolelevel, String roleName,
+			String serviceArea, String serviceAreaName) {
+		InitEvent event = new InitEvent();
+		event.setType("createRole");
+		event.setRoleId(roleid);
+		event.setRolelevel(rolelevel);
+		event.setServiceArea(serviceAreaName);
+		event.setServiceAreaName(serviceAreaName);
+		event.setRoleName(roleName);
+		EventBus.getDefault().post(event);
+	}
+
+	public void doSDKCreateRole(InitEvent event) {
+		String roleLevel = String.valueOf(event.getRolelevel());
+
+		VivoAccountManager.vivoAccountreportRoleInfo(event.getRoleId(),
+				roleLevel, event.getServiceArea(), event.getRoleName(),
+				mContext, event.getServiceAreaName());
+	}
+
+//	/**
+//	 * 获取活动，有活动则调起活动页面，没有活动则不做处理
+//	 * 
+//	 * @param appid
+//	 */
+//	public void getPaymentActionInfo() {
+//		InitEvent event = new InitEvent();
+//		event.setType("getPaymentAction");
+//		EventBus.getDefault().post(event);
+//	}
+
+	// 获取用户活动（登录成功后直接 new，有活动则调起活动页面，没有活动则不做处理）.
+	public void getPaymentAction() {
+		new PaymentActionDetailsInit(mContext, appId);
+	}
+
+	/**
+	 * 支付
+	 * 
+	 * @param orderNumber
+	 *            交易流水号，由订单推送接口返回
+	 * @param accessKey
+	 *            签名方法，由订单推送接口返回
+	 * @param price
+	 *            价格,单位为分（1000即10.00元）
+	 * @param productName
+	 *            商品名称
+	 * @param productDes
+	 *            商品描述 下面为游戏中信息：
+	 * @param roleId
+	 *            角色ID
+	 * @param roleName
+	 *            角色名
+	 * @param serverName
+	 *            游戏中区服信息
+	 * @param party
+	 *            工会
+	 * @param extInfo
+	 *            扩展数据
+	 */
+	public void pay(String orderNumber, String accessKey, long price,
+			String productName, String productDes, int level, String blance,
+			String vipLevel, String party, String extInfo) {
+		InitEvent event = new InitEvent();
+		event.setType("pay");
+		event.setAppid(appId);
+		event.setOrderNumber(orderNumber);
+		event.setAccessKey(accessKey);
+		event.setPrice(price);
+		event.setProductName(productName);
+		event.setProductDes(productDes);
+		event.setRolelevel(level);
+		event.setBlance(blance);
+		event.setVipLevel(vipLevel);
+		event.setParty(party);
+		event.setExtInfo(extInfo);
+		event.setLogOnOff(showLog);
+		EventBus.getDefault().post(event);
+	}
+
+	// 支付.
+	public void doSDKPay(InitEvent event) {
+		Bundle localBundle = new Bundle();
+		localBundle.putString("transNo", event.getOrderNumber());// 交易流水号，由订单推送接口返回
+		localBundle.putString("accessKey", event.getAccessKey());// 由订单推送接口返回
+		localBundle.putString("productName", event.getProductName());// 商品名称
+		localBundle.putString("productDes", event.getProductDes());// 商品描述
+		localBundle.putLong("price", event.getPrice());// 价格,单位为分（1000即10.00元）
+		localBundle.putString("appId", event.getAppid());// appid为vivo开发者平台中生成的AppID
+
+		// 以下为可选参数，能收集到务必填写，如未填写，掉单、用户密码找回等问题可能无法解决。
+		localBundle.putString("blance", event.getBlance()); // 元宝数量
+		localBundle.putString("vip", event.getVipLevel()); // vip 等级
+		localBundle.putInt("level", event.getRolelevel()); // 角色等级
+		localBundle.putString("party", event.getParty()); // 工会
+		// localBundle.putString("roleId", event.getRoleId()); // 角色Id
+		// localBundle.putString("roleName", event.getRoleName()); // 角色名称
+		// localBundle.putString("serverName", event.getServiceAreaName()); //
+		// 服务区名称
+		localBundle.putString("extInfo", event.getExtInfo()); // 扩展数据
+		localBundle.putBoolean("logOnOff", event.isLogOnOff());// CP在接入过程请传true值,接入完成后在改为false,
+																// 传true会在支付SDK打印大量日志信息
+
+		Intent target = new Intent(VivoU3DActivity.this, PaymentActivity.class);
+		target.putExtra("payment_params", localBundle);
+		log("Pay args: " + localBundle.toString());
+		UnityPlayer.currentActivity.startActivityForResult(target, 1);
+	}
+
+	public void doSDKShowAssistView(){
+		// 该接口用于显示悬浮窗
+//		VivoAccountManager.vivoAccountStartAssistView(mContext);
+		log("doSDKShowAssistView");
+		InitEvent event = new InitEvent();
+		event.setType("doSDKShowAssistView");
+
+		EventBus.getDefault().post(event);
+	}
+
+	
+	public void doSDKHideAssistView(){
+		// 该接口用于隐藏悬浮窗
+//		VivoAccountManager.vivoAccountStopAssistView(mContext);
+		log("doSDKHideAssistView");
+		InitEvent event = new InitEvent();
+		event.setType("doSDKHideAssistView");
+
+		EventBus.getDefault().post(event);
+	}
+	
+	/**
+	 * 支付结果回调: transNo：交易流水号(返回调用支付接口的流水号) pay_result：支付是否成功：true：成功，false：失败
+	 * res_code:支付结果状态码 pay_msg：交易结果状态描述，对应状态码的描述信息
+	 */
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Bundle extras = data.getBundleExtra("pay_info");
+		String trans_no = extras.getString("transNo");
+		boolean pay_result = extras.getBoolean("pay_result");
+		String res_code = extras.getString("result_code");
+		String pay_msg = extras.getString("pay_msg");
+
+		JSONObject paymentResultRespJson = new JSONObject();
+		try {
+			paymentResultRespJson.put("extras", extras);
+			paymentResultRespJson.put("trans_no", trans_no);
+			paymentResultRespJson.put("pay_result", pay_result);
+			paymentResultRespJson.put("res_code", res_code);
+			paymentResultRespJson.put("pay_msg", pay_msg);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		log("Pay callback onActivityResult: "
+				+ paymentResultRespJson.toString());
+		UnityPlayer.UnitySendMessage(ViVoGameObj, PayResultResp,
+				paymentResultRespJson + "");
+	}
+
+	// 获取账户信息（登录回调）.
+	OnVivoAccountChangedListener mOnVivoAccountChangedListener = new OnVivoAccountChangedListener() {
+		@Override
+		public void onAccountLogin(String name, String openid, String authtoken) {
+
+			// nameVal.setText(name);
+			// openidVal.setText(openid);
+			// authtokenVal.setText(authtoken);
+			// Intent loginIntent = new Intent();
+			// loginIntent.putExtra(KEY_SHOW_TEMPLOGIN, false);
+			// startActivity(loginIntent);
+			// finish();
+			JSONObject loginResultRespJson = new JSONObject();
+			try {
+				loginResultRespJson.put("name", name);
+				loginResultRespJson.put("openid", openid);
+				// authtoken：第三方游戏用此token到vivo用户系统服务端获取用户信息
+				loginResultRespJson.put("authtoken", authtoken);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			log("Login callback loginResult: " + loginResultRespJson.toString());
+
+			// 登录成功后调起活动界面，没有活动则不调起.
+			getPaymentAction();
+
+			// 服务器验证登录只需用到authtoken，故只传authtoken。
+			UnityPlayer.UnitySendMessage(ViVoGameObj, LoginResultResp,
+					authtoken);
+		}
+
+		// 第三方游戏不需要使用此回调
+		@Override
+		public void onAccountRemove(boolean isRemoved) {
+			// if(isRemoved){
+			// Log.d(TAG, "remove success");
+			// }
+		}
+
+		@Override
+		public void onAccountLoginCancled() {
+			log("Login callback onAccountLoginCancled");
+			// 登录被取消，传空
+			UnityPlayer.UnitySendMessage(ViVoGameObj, LoginResultResp, "");
+		}
+	};
+
+//	public void onClick(View view) {
+//		String AppID = "4f00a8c18074b6ca58eae73f3f30f5b3";
+//
+//		switch (view.getId()) {
+//		case R.id.init:
+//			init(AppID, "gameObj", true);
+//			break;
+//		case R.id.login:
+//			login();
+//			break;
+//		case R.id.createRole:
+//			createRole("011102", 5, "1", "小黑", "1区");
+//			break;
+//		case R.id.getPaymentActionInfo:
+//			getPaymentActionInfo();
+//			break;
+//		case R.id.pay:
+//			String accessKey = "a8ba4a2ed58b4fa5c44e93fa30b4d610";
+//			String orderNumber = "2016041410185362400012137909";
+//			//价格必须和订单推送价格一致.
+//			pay(orderNumber, accessKey, 600, "60元宝", "60元宝", 6, "365",
+//					"3", "刀剑神域", "tnyoovivovivopay");
+//			break;
+//		case R.id.switchAccount:
+//			switchAccount();
+//			break;
+//		}
+//	} //
+
+}

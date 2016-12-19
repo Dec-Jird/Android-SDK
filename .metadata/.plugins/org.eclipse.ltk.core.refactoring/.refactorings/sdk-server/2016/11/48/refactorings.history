@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;com.sdk.util&apos; to &apos;ServerTest/src&apos;&#x0D;&#x0A;- Original project: &apos;sdk-server&apos;&#x0D;&#x0A;- Destination element: &apos;ServerTest/src&apos;&#x0D;&#x0A;- Original element: &apos;sdk-server/src/main/java/com.sdk.util&apos;" description="Copy package" destination="=ServerTest/src" element1="/src\/main\/java&lt;com.sdk.util" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1479862970349" version="1.0"/>
+</session>

@@ -1,0 +1,325 @@
+package com.tnyoo.simplegoogleana;
+
+import java.util.Map;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.HitBuilders.ItemBuilder;
+import com.google.android.gms.analytics.HitBuilders.TransactionBuilder;
+import com.google.android.gms.analytics.Tracker;
+import com.tnyoo.simplegoogleana.AnalyticsApplication.TrackerName;
+import com.unity3d.player.UnityPlayerActivity;
+
+import android.os.Bundle;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.util.Log;
+import android.view.View;
+
+@SuppressLint("NewApi") public class MainActivity extends UnityPlayerActivity {
+
+	private static final String TAG = "Google";
+	public String gameObject;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		log("Activity onCreate","^o^");
+//		setContentView(R.layout.activity_main);
+	}
+	
+	public void initGoogleAnalytics(String gameObjName){
+		gameObject = gameObjName;
+		log("initGoogleAnalytics gameObjName", gameObjName);
+	}
+	
+	/**
+	 * 构建并发送普通事件
+	 * @param screenName
+	 * @param category 事件类别
+	 * @param action 事件操作
+	 * @param label 事件标签
+	 * @param value 事件值
+	 */
+	public void setupEvent(String screenName, String category, String action,
+			String label, long value) {
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+		// Build and send an Event.
+		t.send(new HitBuilders.EventBuilder().setCategory(category)
+				.setAction(action).setLabel(label).setValue(value).build());
+		t.setScreenName(null);
+		log("setupEvent EventCategory", category);
+	}
+
+	// 电子商务：向 GoogleAnalytics（分析）发送应用内购买和销售数据，
+	/** 
+	 * 发送交易数据（交易数据和商品数据由共同的交易ID相关联）
+	 * @param transactionId 代表某次交易的唯一 ID。此 ID 不应与其他交易 ID 重复。
+	 * @param affiliation 此次交易关联的实体（例如某家商店）。
+	 * @param revenue 交易的总收入，含税费和运费。
+	 * @param tax 交易的总税费。
+	 * @param shipping 交易的总运费。
+	 * @param currencyCode 交易的本地货币。为null时取默认值为此次交易对应的数据视图（配置文件）的货币。
+	 */
+	public void sendTransactionData(String transactionId, String affiliation,
+			double revenue, double tax, double shipping, String currencyCode) {
+		TransactionBuilder transaction = new HitBuilders.TransactionBuilder()
+				.setTransactionId(transactionId)
+				.setAffiliation(affiliation)
+				.setRevenue(revenue)
+				.setTax(tax)
+				.setShipping(shipping);
+		if(currencyCode != null)
+			transaction.setCurrencyCode(currencyCode);
+		
+		sendDataToTwoTrackers(transaction.build());
+	}
+
+	/**
+	 * 发送商品数据（交易数据和商品数据由共同的交易ID相关联）
+	 * @param transactionId 该商品关联的交易ID。
+	 * @param name 产品名称。
+	 * @param SKU 产品库存量。
+	 * @param category 产品所属的类别。
+	 * @param price 产品的价格。
+	 * @param quantity 产品的数量。
+	 * @param currencyCode 交易的本地货币。为null时取默认值为此次交易对应的数据视图（配置文件）的货币。
+	 */
+	public void sendProductData(String transactionId, String name, String SKU, String category, 
+			double price, long quantity, String currencyCode) {
+		
+		ItemBuilder product = new HitBuilders.ItemBuilder()
+				.setTransactionId(transactionId)
+				.setName(name).setSku(SKU)
+				.setCategory(category)
+				.setPrice(price)
+				.setQuantity(quantity);
+		if(currencyCode != null)
+			product.setCurrencyCode(currencyCode);
+		
+		sendDataToTwoTrackers(product.build());
+	}
+
+	// Sends the ecommerce data.
+	private void sendDataToTwoTrackers(Map<String, String> params) {
+	  AnalyticsApplication app = (AnalyticsApplication) this.getApplication();
+	 
+	  Tracker appTracker = app.getTracker(TrackerName.APP_TRACKER);
+	  Tracker ecommerceTracker = app.getTracker(TrackerName.ECOMMERCE_TRACKER);
+	 
+	  appTracker.send(params);
+	  ecommerceTracker.send(params);
+	  log("sendDataToTwoTrackers",params.toString());
+	}
+	
+	// 增强型电子商务
+
+	// 屏幕：衡量屏幕浏览量以及用户如何在屏幕之间跳转
+	public void sendScreenView(String screenName){
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication()).getTracker(
+		    TrackerName.APP_TRACKER);
+		// Set screen name.
+		t.setScreenName(screenName);
+		// Send a screen view.
+		t.send(new HitBuilders.ScreenViewBuilder().build());
+		log("sendScreenView screenName",screenName);
+	}
+	
+	private void log(String method, String str) {
+		Log.i(TAG, method + ": " + str);
+	}
+	
+	// 会话
+	public void setNewSession(String screenName){
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication()).getTracker(
+			    TrackerName.APP_TRACKER);
+		// Set screen name.
+		t.setScreenName(screenName);
+		// Start a new session with the hit.
+		t.send(new HitBuilders.ScreenViewBuilder()
+		    .setNewSession()
+		    .build());
+		log("setNewSession screenName",screenName);
+	}
+	
+	/**
+	 * 发送社交互动
+	 * @param socialNetwork 用户与之互动的社交网络（例如 Facebook、Google+、Twitter 等）。
+	 * @param socialAction 进行的社交操作（例如赞、分享、+1 等）。
+	 * @param socialTarget 发生社交操作的内容（例如某篇文章或某段视频）。
+	 */
+	public void sendSocialInteraction(String socialNetwork, String socialAction, String socialTarget){
+		Tracker t = ((AnalyticsApplication) this.getApplication()).getTracker(
+		    TrackerName.APP_TRACKER);
+		// Build and send social interaction.
+		t.send(new HitBuilders.SocialBuilder()
+		    .setNetwork(socialNetwork)
+		    .setAction(socialAction)
+		    .setTarget(socialTarget)
+		    .build());
+		log("SocialInteraction screenName",socialAction);
+	}
+
+	/**
+	 * 用户id
+	 * An example method called when a user signs in to an authentication system.
+	 * @param userId
+	 */
+	public void onUserSignIn(String userId) {
+	  // Be careful when creating new trackers -- it is possible to create multiple trackers for the
+	  // same tracking Id.
+	  Tracker t = ((AnalyticsApplication) this.getApplication()).getTracker(
+			    TrackerName.APP_TRACKER);
+	  // You only need to set User ID on a tracker once. By setting it on the tracker, the ID will be
+	  // sent with all subsequent hits.
+	  t.set("&uid", userId);
+	  // This hit will be sent with the User ID value and be visible in User-ID-enabled views (profiles).
+	  t.send(new HitBuilders.EventBuilder().setCategory("UX").setAction("User Sign In").build());
+		log("onUserSignIn userId",userId);
+	}
+	
+	/**
+	 * 用户计时：原生的时间衡量方式。比如，衡量资源加载时间（用户计时数据主要可在“用户计时”报告中找到。）。
+	 * @param category 计时事件的类别。
+	 * @param value 以毫秒表示的计时值（时间间隔）。
+	 * @param name 计时事件的名称。
+	 * @param label 计时事件的标签。
+	 */
+	public void timing(String category,long value, String name,String label){
+		Tracker t = ((AnalyticsApplication) this.getApplication()).getTracker(
+			    TrackerName.APP_TRACKER);
+		// Build and send timing.
+		t.send(new HitBuilders.TimingBuilder()
+		    .setCategory(category)
+		    .setValue(value)
+		    .setVariable(name)
+		    .setLabel(label)
+		    .build());
+		log("timing",name);
+	}
+	
+	/**
+	 * 发送异常
+	 * 
+	 * @param exceptionMethod 发生异常的方法
+	 * @param exceptionLocation 发生异常位置
+	 * @param exceptionFatal 异常是否严重，true 代表严重。
+	 */
+	public void sendException(String exceptionMethod, String exceptionLocation,
+			boolean exceptionFatal) {
+		Tracker tracker = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		// Build and send exception.
+		tracker.send(new HitBuilders.ExceptionBuilder()
+				.setDescription(exceptionMethod + ": " + exceptionLocation)// 异常描述
+				.setFatal(exceptionFatal).build());
+		log("sendException", exceptionMethod + " - " + exceptionLocation);
+	}
+
+	// 自定义维度和指标（报表中显示行为维度列为指标），如：自定义维度为Vip，则指标有1(vip1),2(vip2)....，自定义维度为级别(level)，则指标有1级,2级....。
+	/**
+	 * 设置自定义维度
+	 * @param screenName
+	 * @param index 自定义维度或指标的索引。此索引值以 1 起始（表格行索引，一行一维度）。
+	 * @param dimension 自定义维度或指标的值。对于指标而言，此值会被解析为整数（如果指标被配置为货币类型，则值会解析为固定位数的小数值）。
+	 */
+	public void customDimension(String screenName, int index, String dimension) {
+		// Get tracker.
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+
+		// Send the custom dimension value with a screen view.
+		// Note that the value only needs to be sent once.
+		t.send(new HitBuilders.ScreenViewBuilder()
+				.setCustomDimension(index, dimension)// (1, "premiumUser")
+				.build());
+		t.setScreenName(null);
+		log("customDimension dimension", index + " - " + dimension);
+	}
+
+	/**
+	 * 设置自定义指标
+	 * @param screenName
+	 * @param index 自定义维度或指标的索引。此索引值以 1 起始（表格列索引，一列一指标）。
+	 * @param metric 自定义维度或指标的值。对于指标而言，此值会被解析为整数（如果指标被配置为货币类型，则值会解析为固定位数的小数值）。
+	 */
+	public void customMetric(String screenName, int index, float metric) {
+		Tracker t = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+		t.setScreenName(screenName);
+
+		// Send the custom dimension value with a screen view.
+		// Note that the value only needs to be sent once.
+		t.send(new HitBuilders.ScreenViewBuilder()
+		        .setCustomMetric(index,metric)// (1, 5)
+				.build());
+		t.setScreenName(null);
+		log("customMetric metric", index + " - " + metric);
+	}
+	
+	
+	////////////////////////////////////////Android版测试////////////////////////////////////////////
+	public void sendEvent1(View v) {
+		// 获取跟踪
+		Tracker tracker = ((AnalyticsApplication) this.getApplication())
+				.getTracker(TrackerName.APP_TRACKER);
+
+		// All subsequent hits will be send with screen name = "main screen"
+		tracker.setScreenName("main screen");
+
+		tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+		tracker.send(new HitBuilders.EventBuilder().setCategory("Simple")
+				.setAction("click").setLabel("submit").build());
+		// Clear the screen name field when we're done.
+		tracker.setScreenName(null);
+	}
+
+	public void sendEvent2(View v) {
+		setupEvent("help popup dialog", "LongLongStory", "click", "help popup", 110);
+	}
+	
+	void Login(){
+		onUserSignIn ("0390293");
+	}
+
+	void Timing(){
+		timing ("游戏时间", 128, "Time Survival", "survival");
+	}
+
+	void SendEvent(){
+		setupEvent ("Battle Screen", "Fight Success", "Click", "Submit", 2333);
+	}
+
+	void SendScreenView(){
+		sendScreenView ("Battle Screen");
+	}
+
+	void Purchase(){
+		//发送交易数据
+		GoogleAnalytics.sendTransactionData ("903903-JR-3989", "天游", 128, 2.5, 0.0, "CNY");
+		//发送商品数据
+		GoogleAnalytics.sendProductData (transactionId.label.text,"悟空烈焰皮肤", "155", "皮肤", 128, 1, null);
+	}
+
+	void CustomDimension(){
+		GoogleAnalytics.customDimension (screenName.label.text, 1, "Easy");
+	}
+
+	void CustomMetric(){
+		GoogleAnalytics.customMetric (screenName.label.text, 1, 3);
+	}
+
+	void NewSession(){
+		GoogleAnalytics.setNewSession (screenName.label.text);
+	}
+
+	void SendException(){
+		GoogleAnalytics.sendException("sendRealTimeData","战斗胜利",false);
+	}
+}

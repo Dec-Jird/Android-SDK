@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <!-- 您要向其发送数据的 Google Analytics（分析）跟踪 ID test UA-70050428-1-->
+  <string name="ga_trackingId">UA-70861428-1</string>
+  
+  <!-- The application name. Defaults to name specified for the application label -->
+  <string name="ga_appName">GoogleAnalytics</string>
+
+  <!-- The application version. Defaults to android:versionName specified in the AndroidManifest.xml -->
+  <string name="ga_appVersion">1.0</string>
+
+  <!-- log详细程度，有效值分别为：error、warning、info、verbose -->
+  <string name="ga_logLevel">verbose</string>
+  
+  <!-- 要使用的抽样率。默认值为 100.0。可以是 0.0 和 100.0 之间的任何值。 -->
+  <string name="ga_sampleFrequency">100.0</string>
+  
+  <!-- 自动调度频率，以秒为单位
+  <integer name="ga_dispatchPeriod">1800</integer> -->
+  
+  <!-- 自动会话管理，您的应用在后台停留多长时间（以秒为单位）才能将该会话视为结束。 -->
+  <integer name="ga_sessionTimeout">180</integer>
+  
+  <!-- 如果设为 true，则将自动跟踪屏幕浏览量 (Activity)。 默认值为 false。 -->
+  <bool name="ga_autoActivityTracking">true</bool>
+  
+  <!-- 崩溃和异常，设置自动向 Google Analytics（分析）发送未捕获的异常-->
+  <bool name="ga_reportUncaughtExceptions">true</bool>
+  
+  <!-- 告知 Google Analytics（分析）匿名化处理跟踪器对象发送的信息 -->
+  <bool name="ga_anonymizeIp">false</bool>
+  
+  <!-- 如果设为 true，将启用测试模式。匹配将不会被发送到 Google Analytics（分析）服务器 -->
+  <bool name="ga_dryRun">false</bool>
+  
+<!-- The screen names that will appear in reports -->
+<screenName name="com.unity3d.player.UnityPlayerNativeActivity">
+    UnityPlayerNativeActivity Screen
+</screenName>
+
+<!-- The screen names that will appear in reports -->
+<screenName name="com.tnyoo.appsflyer.AppsFlyerActivity">
+    MainActivity Screen
+</screenName>
+</resources>

@@ -1,0 +1,138 @@
+package com.tnyoo.appsflyer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerConversionListener;
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.DebugLogQueue;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+
+public class MainActivity extends Activity {
+	public static final String LOG_TAG = "AppsFlyerSampleApp";
+
+	public String gameObjectName = "";
+	public Context context;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		context = getApplicationContext();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	// String gameObj
+	public void initAppsFlyerSDK(View v) {
+		// this.gameObjectName = gameObj;
+
+		// This聽API聽enables聽AppsFlyer聽to聽detect聽installations,聽sessions,聽and聽updates.聽
+		AppsFlyerLib.setAppsFlyerKey("db0a0964-e5db-4a3b-b2fc-85c4c94860fb");
+		AppsFlyerLib.sendTracking(context);// sendTracking蹇呴』鍦ㄥ惎鍔ˋctivty鐨凮nCreate鏂规硶涓皟鐢�
+
+		AppsFlyerLib.registerConversionListener(this,
+				new AppsFlyerConversionListener() {
+
+					public void onInstallConversionDataLoaded(
+							Map<String, String> conversionData) {
+						DebugLogQueue.getInstance().push(
+								"\nGot conversion data from server");
+						for (String attrName : conversionData.keySet()) {
+							Log.d(LOG_TAG, "attribute: " + attrName + " = "
+									+ conversionData.get(attrName));
+						}
+					}
+
+					public void onInstallConversionFailure(String errorMessage) {
+						Log.d(LOG_TAG, "error getting conversion data: "
+								+ errorMessage);
+					}
+
+					public void onAppOpenAttribution(
+							Map<String, String> attributionData) {
+						printMap(attributionData);
+					}
+
+					public void onAttributionFailure(String errorMessage) {
+						Log.d(LOG_TAG, "error onAttributionFailure : "
+								+ errorMessage);
+
+					}
+
+					private void printMap(Map<String, String> map) {
+						for (String key : map.keySet()) {
+							Log.d(LOG_TAG, key + "=" + map.get(key));
+						}
+					}
+				});
+	}
+
+	@SuppressWarnings("deprecation")
+	public void login(View v) {
+		AppsFlyerLib.setCurrencyCode("CNY");
+		AppsFlyerLib.setCustomerUserId("30942098403 ");// 璁剧疆UserID
+		AppsFlyerLib.sendTracking(context, AFInAppEventType.LOGIN);
+	}
+
+	public void levelAchieved(View v) {
+		levelAchievedEvent(9, 99);
+	}
+
+	// 绛夌骇鎴愬氨浜嬩欢
+	public void levelAchievedEvent(int level, int score) {// 9 88
+		Map<String, Object> eventValues = new HashMap<String, Object>();
+
+		eventValues.put(AFInAppEventParameterName.LEVEL, level);
+		eventValues.put(AFInAppEventParameterName.SCORE, score);
+
+		AppsFlyerLib.trackEvent(context, AFInAppEventType.LEVEL_ACHIEVED,
+				eventValues);
+	}
+
+	public void purchase(View v) {
+		purchaseEvent(300, "category_a", "09292982", "CNY");
+	}
+
+	// 浜ゆ槗浜嬩欢
+	public void purchaseEvent(int REVENUE, String CONTENT_TYPE,
+			String CONTENT_ID, String CURRENCY) {// 2000,
+													// "category_a","09292982","CNY"
+		Map<String, Object> eventValues = new HashMap<String, Object>();
+
+		eventValues.put(AFInAppEventParameterName.REVENUE, REVENUE);
+		eventValues.put(AFInAppEventParameterName.CONTENT_TYPE, CONTENT_TYPE);
+		eventValues.put(AFInAppEventParameterName.CONTENT_ID, CONTENT_ID);
+		eventValues.put(AFInAppEventParameterName.CURRENCY, CURRENCY);
+
+		AppsFlyerLib
+				.trackEvent(context, AFInAppEventType.PURCHASE, eventValues);
+	}
+
+	// 涓嬮潰涓や釜鏂规硶闇�瑕佸鍐�
+	@Override
+	public void onResume() {
+		super.onResume();
+		AppsFlyerLib.onActivityResume(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		AppsFlyerLib.onActivityPause(this);
+	}
+
+}

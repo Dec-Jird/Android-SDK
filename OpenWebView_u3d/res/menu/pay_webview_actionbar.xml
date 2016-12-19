@@ -1,0 +1,17 @@
+<!-- Web支付页面要用到的标题栏(ActionBar)，显示一个关闭按钮 -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 关闭图片按钮, 应该作为动作按钮展示 -->
+    <item
+        android:id="@+id/payweb_action_close"
+        android:icon="@drawable/payweb_close_button"
+        android:showAsAction="ifRoom"
+        android:title="@string/payweb_action_close"/>
+<!-- 
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/> -->
+
+</menu>

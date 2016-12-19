@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 3 elements from project &apos;unity-android-resources&apos;&#x0D;&#x0A;- Original project: &apos;unity-android-resources&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     bbk_activity_card_s.xml&#x0D;&#x0A;     bbk_activity_card.xml&#x0D;&#x0A;     bbk_activity_game_card.xml" description="Delete elements" element1="res/layout/bbk_activity_card_s.xml" element2="res/layout/bbk_activity_game_card.xml" element3="res/layout/bbk_activity_card.xml" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="3" stamp="1472006542236" subPackages="false" version="1.0"/>
+</session>

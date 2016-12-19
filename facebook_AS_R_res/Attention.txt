@@ -1,0 +1,4 @@
+这里的facebook工程，只作为打包jar来使用；
+其中的res资源文件有缺失（避免报错删掉了部分）；
+这些资源文件不能用于Unity打包来使用，facebook的资源文件来源于Android Studio；
+详见OneNote笔记。

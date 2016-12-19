@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="qiqu_alipay_choice">
+        <item>10</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>3000</item>
+    </string-array>
+    <string-array name="qiqu_jcard_choice">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>500</item>
+    </string-array>
+    <string-array name="qiqu_mobile_choice">
+        <item>10</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>300</item>
+        <item>500</item>
+    </string-array>
+    <string-array name="qiqu_telecom_choice">
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="qiqu_unicom_choice">
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>300</item>
+        <item>500</item>
+    </string-array>
+    <color name="qiqu_black">#000000</color>
+    <color name="qiqu_blue">#0000FF</color>
+    <color name="qiqu_transparent_background">#50000000</color>
+    <color name="qiqu_white">#FFFFFF</color>
+    <string name="app_name">QiQuSDK</string>
+    <string name="qiqu_91acount_check">账号应为4–20个数字，字母或下划线</string>
+    <string name="qiqu_account_input_hint">输入账号</string>
+    <string name="qiqu_exchangeRateText">请选择充值金额(1元=%1$s %2$s)</string>
+    <string name="qiqu_find_password_1">方式一: 点击020-82320600拨打客服热线</string>
+    <string name="qiqu_find_password_2">方式二: 你也可以登录www.6kwan.com找回密码</string>
+    <string name="qiqu_find_password_tel">020-82320600</string>
+    <string name="qiqu_find_password_web">www.6kwan.com</string>
+    <string name="qiqu_forget_password">忘记密码</string>
+    <string name="qiqu_img_desc">image desc</string>
+    <string name="qiqu_input_form_error">用户名或密码格式错误</string>
+    <string name="qiqu_is_checking">检测账号………</string>
+    <string name="qiqu_is_loading">加载中………</string>
+    <string name="qiqu_is_logining">登录中………</string>
+    <string name="qiqu_is_registering">注册中………</string>
+    <string name="qiqu_no_login">未登录</string>
+    <string name="qiqu_password_input_hint">输入密码</string>
+    <string name="qiqu_password_null">密码应至少为6个字符，区分大小写</string>
+    <string name="qiqu_pay_more_way_prompt">1.请使用电脑登录官网http://www。6kwan.com进行在线充值。\n\n2.如果有问题请拨打7gwan客服热线020-82320600\n\n3.为了确保您顺利充值，请您牢记您的账号。</string>
+    <string name="qiqu_register_account">用 户 名:</string>
+    <string name="qiqu_register_account_prompt">你可以输入下划线,字母/数字作为用户账号,也可以使用系统为您默认分配的账号。</string>
+    <string name="qiqu_register_agreement_title">7gwan用户服务协议</string>
+    <string name="qiqu_register_already_exist">账号已存在</string>
+    <string name="qiqu_register_password">密     码:</string>
+    <string name="qiqu_register_success">注册成功</string>
+    <string name="qiqu_register_text">注册</string>
+    <string name="qiqu_show_cancel">取消</string>
+    <string name="qiqu_show_ensure">确定</string>
+    <string name="qiqu_title_back">返回</string>
+    <string name="qiqu_title_exit">退出</string>
+    <string name="qiqu_title_help">帮助</string>
+    <string name="qiqu_unknown_error">未知错误</string>
+    <style name="qiqu_AppTheme" parent="android:Theme.Light"/>
+    <style name="qiqu_LoginDialog" parent="@android:style/Theme.Dialog">
+
+        <!-- name是我们在使用时要用到的资源的标志，parent是指当前的样式所继承的父类样式 -->
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 屏幕背景是否变暗 -->
+        <item name="android:backgroundDimAmount">0</item>
+    </style>
+    <style name="qiqu_baseActivity">
+        <item name="android:windowBackground">@color/qiqu_transparent_background</item>
+
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+
+        <!--<item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>-->
+    </style>
+</resources>

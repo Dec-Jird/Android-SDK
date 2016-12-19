@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;AppsFlyerActivity.java&apos; to &apos;Facebook_Final/src/com.tnyoo.facebook&apos;&#x0D;&#x0A;- Original project: &apos;AppsFlyer_u3d&apos;&#x0D;&#x0A;- Destination element: &apos;Facebook_Final/src/com.tnyoo.facebook&apos;&#x0D;&#x0A;- Original element: &apos;com.tnyoo.appsflyer.AppsFlyerActivity.java&apos;" description="Copy compilation unit" destination="=Facebook_Final/src&lt;com.tnyoo.facebook" element1="/src&lt;com.tnyoo.appsflyer{AppsFlyerActivity.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1476779678185" units="1" version="1.0"/>
+</session>

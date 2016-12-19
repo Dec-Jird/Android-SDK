@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;ccPayLibrary&apos; to &apos;ccPay_demou3d&apos;&#x0D;&#x0A;- Original element: &apos;ccPayLibrary&apos;&#x0D;&#x0A;- Renamed element: &apos;ccPayLibrary&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;ccPayLibrary&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=ccPayLibrary" name="ccPay_demou3d" references="true" stamp="1460967323257" version="1.0"/>
+</session>

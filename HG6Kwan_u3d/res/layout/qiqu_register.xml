@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f0f0f0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="@drawable/qiqu_login_title">
+
+        <TextView
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_centerInParent="true"
+            android:text="注册"
+            android:textColor="#8A8A8A"
+            android:textSize="16dp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_weight="0.2"
+        android:layout_height="0dp"></View>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width ="match_parent"
+        android:layout_height ="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft ="28.0dip"
+        android:layout_marginRight ="28.0dip"
+        android:background ="@drawable/qiqu_login_shape_corner"
+        android:orientation ="vertical" >
+
+        <LinearLayout
+            android:layout_width ="match_parent"
+            android:layout_height ="0dp"
+            android:layout_weight="1"
+            android:gravity ="center_vertical"
+            android:orientation ="horizontal" >
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/qiqu_login_little_user"/>
+            <EditText
+                android:id ="@+id/qiqu_reg_account_et"
+                android:layout_width ="0dp"
+                android:layout_height ="match_parent"
+                android:layout_weight ="9"
+                android:gravity ="center_vertical"
+                android:background="@null"
+                android:imeOptions ="actionDone"
+                android:maxLength ="16"
+                android:maxLines ="1"
+                android:textSize ="16dp"
+                android:textColor ="#ff1d1d1d"
+                android:textColorHint ="#ff666666"
+                android:paddingBottom="5dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:hint="用户名">
+                <requestFocus />
+            </EditText>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width ="match_parent"
+            android:layout_height ="1.0px"
+            android:layout_marginLeft ="1.0px"
+            android:layout_marginRight ="1.0px"
+            android:background ="#ffc0c3c4" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/qiqu_login_little_lock"/>
+            <EditText
+                android:id ="@+id/qiqu_reg_password1_et"
+                android:layout_width ="0dp"
+                android:layout_height ="match_parent"
+                android:layout_weight ="9"
+                android:gravity ="center_vertical"
+                android:maxLength ="16"
+                android:maxLines ="1"
+                android:textColor ="#ff1d1d1d"
+                android:textColorHint ="#ff666666"
+                android:background="@null"
+                android:textSize ="16dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:hint="密码"/>
+        </LinearLayout>
+    </LinearLayout >
+
+    <Button
+        android:id="@+id/qiqu_reg_login_btn"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft ="28dip"
+        android:layout_marginRight ="28dip"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.55"
+        android:text="一键注册"
+        android:textSize="16dp"
+        android:textColor="@color/qiqu_login_color_login_btn_text"
+        android:background="@drawable/qiqu_login_select_login_button"
+        />
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft ="28.0dip"
+        android:layout_marginRight ="28.0dip"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|top">
+        <CheckBox
+            android:id="@+id/qiqu_reg_agreement_cb"
+            android:checked="true"
+            android:text="同意《6KWAN用户协议》"
+            android:textColor="#ff6716"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/qiqu_reg_goback_tv"
+            android:text="返回登录"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#ff666666"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:onClick="goBackLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>
