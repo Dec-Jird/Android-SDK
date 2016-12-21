@@ -326,10 +326,10 @@ public class FacebookU3D {// extends UnityPlayerActivity {
 		// facebook邀请appLinks获取邀请你的人的数据.
 		Uri targetUrl = AppLinks.getTargetUrlFromInboundIntent(activity,
 				activity.getIntent());
-//		Intent i = activity.getIntent();
-//		debugLog("Intent Data: " + i.getDataString());
-//		debugLog("Intent BundleExtra: " + i.getBundleExtra("al_applink_data"));
-//		debugLog("Intent Scheme: " + i.getScheme());
+		Intent i = activity.getIntent();
+		debugLog("Intent Data: " + i.getDataString());
+		debugLog("Intent BundleExtra: " + i.getBundleExtra("al_applink_data"));
+		debugLog("Intent Scheme: " + i.getScheme());
 
 		if (targetUrl != null) {
 			saveInvitedPlayerMsgFromInviteUrl(targetUrl);

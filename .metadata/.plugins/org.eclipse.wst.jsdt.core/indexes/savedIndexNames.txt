@@ -1,6 +1,4 @@
-INDEX VERSION 1.122+D:\TynooProject\AndroidProject\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-890407496.index
-3819601224.index
-3449192664.index
-1109899445.index
-986953702.index
+INDEX VERSION 1.122+D:\Project\Android-SDK\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2734848822.index
+4150521099.index
+2087882772.index
