@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@anim/radio_bg_1" android:state_checked="true"
+        android:state_enabled="true" >
+        <color android:color="#00baf2"/>
+    </item>
+    <item android:drawable="@anim/radio_bg_2" android:state_checked="false"
+        android:state_enabled="true" >
+        <color android:color="#e6f7f9"/>
+        </item>
+</selector>
