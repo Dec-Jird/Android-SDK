@@ -6,16 +6,21 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import com.yunva.video.sdk.YunvaVideoTroops;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 //棱镜渠道，考虑application的name参数问题，用下面代码.
 //import  com.xinmei365.game.proxy.XMApplication;
 //public class TroopsApplication extends XMApplication {
 
 //百度渠道，需要继承百度application。
-//import com.baidu.gamesdk.BDGameApplication;
-//public class TroopsApplication extends BDGameApplication {
+import com.baidu.gamesdk.BDGameApplication;
+public class TroopsApplication extends BDGameApplication {
 
 //快发渠道，需要继承快发application。
 //import com.cmge.sdkkit.framework.mw.app.SDKBaseApplication;
@@ -43,7 +48,7 @@ public class TroopsApplication extends MultiDexApplication {
 	
 
 //一般渠道，没有自带Application的
-public class TroopsApplication extends Application {
+//public class TroopsApplication extends Application {
 	
 //	@Override 弃用
 //	protected void attachBaseContext(Context base) {
@@ -55,7 +60,7 @@ public class TroopsApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+		queryUpdate();//利用反射检查热更新。
 		String appId = getTroopsAppId(this);
 		YunvaVideoTroops.initApplicationOnCreate(this, appId);
 	}
@@ -73,5 +78,31 @@ public class TroopsApplication extends Application {
 			return null;
 		}
 	}
-
+	
+	/** ---------乐变---------------- **/
+	// 利用反射机制，查询更新
+	protected void queryUpdate() {
+		InvocationHandler myHandler = new InvocationHandler() {
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args)
+					throws Throwable {
+				return null;
+			}
+		};
+		try {
+			Class<?> mCallback = Class
+					.forName("com.excelliance.lbsdk.IQueryUpdateCallback");
+			Object object = Proxy.newProxyInstance(this.getClassLoader(),
+					new Class[] { mCallback }, myHandler);
+			Class<?> clazz = Class.forName("com.excelliance.lbsdk.LebianSdk");
+			Method m = clazz.getDeclaredMethod("queryUpdate", Context.class,
+					mCallback, String.class);
+			m.invoke(clazz, this, object, null);
+			Log.d("MainActivity", "SDK Successful");
+		} catch (Exception e) {
+			Log.d("MainActivity", "no lebian sdk");
+		}
+	}
+	/** ---------乐变---------------- **/
+	
 }

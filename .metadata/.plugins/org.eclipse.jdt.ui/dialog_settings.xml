@@ -3,7 +3,7 @@
 	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
 	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
-	<item value="D:\TynooProject\Unity Project\FaceBook_UA\Assets\Plugins\facebook-change\Android\support-v4-23.4.0" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="D:\Java" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="false" key="SortMembers.sort_all"/>
 	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
 	<item value="filter_imports;" key="filters_last_used"/>
@@ -51,11 +51,11 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\Administrator\Desktop\SDK_YAYAVoice.jar"/>
 			<item value="C:\Users\Administrator\Desktop\SDK_Facebook_U3D_4.16.1.jar"/>
 			<item value="C:\Users\Administrator\Desktop\SDK_Facebook_U3D_4.17.0.jar"/>
 			<item value="C:\Users\Administrator\Desktop\SDK_AppsFlyer_U3D_3.3.0.jar"/>
 			<item value="C:\Users\Administrator\Desktop\SDK_PlayPark_U3D_1.1.4.jar"/>
-			<item value="C:\Users\Administrator\Desktop\SDK_PlayPark_U3D_1.1.2.jar"/>
 		</list>
 	</section>
 	<section name="AddGetterSetterDialog">
@@ -150,7 +150,7 @@
 	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="1" key="pageIndex"/>
+		<item value="2" key="pageIndex"/>
 	</section>
 	<section name="NewPackageWizardPage">
 		<item value="false" key="create_package_info_java"/>
